@@ -28,6 +28,6 @@ add_compile_options(-march=native -mfpmath=[your SIMD instruction set] -O3)
 
 [1]: https://isocpp.org/
 [2]: https://github.com/KhronosGroup/OpenGL-Registry/blob/main/api/GL/glcorearb.h
-[3]: https://github.com/jopadan/mlr_rosetta/blob/main/include/mlr_rosetta/buf.hpp
-[4]: https://github.com/jopadan/mlr_rosetta/blob/main/include/mlr_rosetta/vec.hpp
+[3]: https://github.com/jopadan/mlr_rosetta/blob/main/include/mlr/buf.hpp
+[4]: https://github.com/jopadan/mlr_rosetta/blob/main/include/mlr/vec.hpp
 [5]: https://rosettacode.org/
