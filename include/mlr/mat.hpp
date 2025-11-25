@@ -41,15 +41,25 @@ struct mat : buf<vec<T,N,A>,M,A>
 	void print(FILE* stream = stdout)
 	{
 		for(size_t i = 0; i < M; i++)
-		{
 			(*this)[i].println(stream);
-		}
 	}
 	void println(FILE* stream = stdout)
 	{
 		print(stream);
 		fputs("", stream);
 	}
+	static constexpr mat<T,M,M> ne()
+	{
+		return {};
+	}
+	static constexpr mat<T,M,M,A> id(ssize_t n = M)
+	{
+		mat<T,M,M,A> dst;
+		if(n < 0) dst.fill(vec<T,M,A>::id());
+		else for(size_t i = 0; i < n; i++) dst[i][i] = (T)1;
+		return dst;
+	}
+	template<size_t N_I>
 	mat<T,M,N,A> transposed() const
 	{
 		mat<T,M,N,A> dst;

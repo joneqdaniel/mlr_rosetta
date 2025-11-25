@@ -21,10 +21,21 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 		std::copy(other.cbegin(), other.cend(), this->begin());
 		return (*this);
 	}
+	vec<T,N,A> operator-()
+	{
+		vec<T,N,A> dst;
+		std::transform(this->cbegin(), this->cend(), dst.begin(), std::negate<>{});
+		return dst;
+	}
 
 	/* permute vector according to input indices */
 	template<typename... I>
 	inline constexpr vec<T, sizeof...(I),A> permute(const I... args) const { return vec<T,sizeof...(I),A>{ (*this)[args % N]... }; }
+
+	vec<vec<T,N/2,A>,N/2,A>& split()
+	{
+		return *reinterpret_cast<vec<vec<T,N/2,A>,N/2,A>*>(this);
+	}
 
 	static inline constexpr vec<T,N,A> id(ssize_t i = -1)
 	{		
