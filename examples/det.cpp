@@ -5,7 +5,7 @@ constexpr inline bool test(mat<T,N,M,A>& src);
 
 int main()
 {
-	mat<int,2> A =
+	mat<int,2,2> A =
 	{
 		{ 1, 2},
 		{ 3, 4}
@@ -23,7 +23,7 @@ int main()
 		{ 7, 8, 9,10},
 		{10,11,12,13}
 	};
-	mat<int,5> D =
+	mat<int,5,5> D =
 	{
 		{ 0,  1,  2,  3,  4},
 		{ 5,  6,  7,  8,  9},
