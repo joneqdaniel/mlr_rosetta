@@ -49,7 +49,7 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 	static inline constexpr vec<T,N,A> ne() { return {}; }
 
 	/* horizontal accumulate the vector to default floating point type */
-	flt inline constexpr sum() { return (flt)std::accumulate(this->cbegin(), this->cend(), (T)0); }
+	inline constexpr flt sum() { return (flt)std::accumulate(this->cbegin(), this->cend(), (T)0); }
 	/* sign manipulations */
 	inline constexpr vec<T,N,A>& negate(size_t mod = 2, size_t val = 0)
 	{
@@ -75,6 +75,9 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 		print(stream);
 		fputs("\n", stream);
 	}
+	inline constexpr flt sqrlen()      const { return dot((*this),(*this));     }
+	inline constexpr flt sqrlenrecip() const { return ((flt)1)/sqrlen();         }
+	inline constexpr flt len()         const { return std::sqrt<flt>(sqrlen()); }
 };
 
 /* n-dimensional dot/scalar product */

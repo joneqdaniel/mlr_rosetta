@@ -33,6 +33,8 @@ target_include_directories( mlr INTERFACE
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/mlr DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT headers)
 
+add_executable( cross examples/cross.cpp )
+target_link_libraries( cross mlr )
 add_executable( det examples/det.cpp )
 target_link_libraries( det mlr )
 add_executable( vec examples/vec.cpp )

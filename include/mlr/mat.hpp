@@ -96,3 +96,13 @@ struct mat : buf<vec<T,N,A>,M,A>
 	}
 };
 
+/* 4-dimensional cross/vector product using laplacian expansion (specialization of n-dimensional hodge dual/star operator) */
+template<typename T_A, size_t N_A, typename T_B, size_t N_B, typename T_C, size_t N_C, enum alg A_A = alg::std, enum alg A_B = alg::std, enum alg A_C = alg::std, typename T_DST = decltype((T_A)1 * (T_B)1 * (T_C)1 - (T_A)1 * (T_B)1 * (T_C)1)>
+inline constexpr vec<T_DST,4> cross4(const vec<T_A,N_A,A_A>& a, const vec<T_B,N_B,A_B>& b, const vec<T_C,N_C,A_C>& c)
+{
+	return vec<T_DST,4>{ -mat<T_DST,3,3>{ a.permute(1,2,3), b.permute(1,2,3), c.permute(1,2,3) }.det(),
+	                     +mat<T_DST,3,3>{ a.permute(0,2,3), b.permute(0,2,3), c.permute(0,2,3) }.det(),
+	                     -mat<T_DST,3,3>{ a.permute(0,1,3), b.permute(0,1,3), c.permute(0,1,3) }.det(),
+	                     +mat<T_DST,3,3>{ a.permute(0,1,2), b.permute(0,1,2), c.permute(0,1,2) }.det() };
+}
+
