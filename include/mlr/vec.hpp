@@ -49,7 +49,15 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 	static inline constexpr vec<T,N,A> ne() { return {}; }
 
 	/* horizontal accumulate the vector to default floating point type */
-	inline constexpr flt sum() { return (flt)std::accumulate(this->cbegin(), this->cend(), (T)0); }
+	inline constexpr flt sum()
+	{
+		flt dst = (flt)0;
+		_Pragma("omp simd reduction(+:dst)")
+		for(size_t i = 0; i < N; i++) dst += (*this)[i];
+		return dst;
+	}
+
+
 	/* sign manipulations */
 	inline constexpr vec<T,N,A>& negate(size_t mod = 2, size_t val = 0)
 	{
@@ -82,7 +90,13 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 
 /* n-dimensional dot/scalar product */
 template<typename T, size_t N, typename T_O, size_t N_O, enum alg A = alg::std, enum alg A_O = alg::std>
-inline constexpr flt dot(const vec<T,N,A>& a, const vec<T_O,N_O,A_O>& b) { return (a * b).sum(); }
+inline constexpr flt dot(const vec<T,N,A>& a, const vec<T_O,N_O,A_O>& b)
+{
+	flt dst = (flt)0;
+	_Pragma("omp simd reduction(+:dst)")
+	for(size_t i = 0; i < N; i++) dst += a[i] * b[i];
+	return dst;
+}
 
 /* 3-dimensional cross/vector product (specialization of n-dimensional hodge dual/star operator) */
 template<typename T, size_t N, typename T_O, size_t N_O, enum alg A = alg::std, enum alg A_O = alg::std, typename T_DST = decltype((T)1 * (T_O)1 - (T)1 * (T_O)1)>

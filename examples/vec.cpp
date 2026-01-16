@@ -8,7 +8,7 @@
 using f32   = float;
 using f32x2 = vec<f32,2>;
 
-inline constexpr bool print_test(f32x2 a, f32x2 b);
+inline bool print_test(f32x2 a, f32x2 b);
 
 int main(int argc, char** argv)
 {
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     exit(print_test(a,b) ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
-inline constexpr bool print_test(f32x2 a, f32x2 b)
+inline bool print_test(f32x2 a, f32x2 b)
 {
     a.print(); fputs(" + ", stdout); b.print(); fputs(" = ", stdout);
     (a + b).println();
