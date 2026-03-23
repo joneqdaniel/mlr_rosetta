@@ -20,14 +20,10 @@ int main(int argc, char** argv)
 
 inline bool print_test(f32x2 a, f32x2 b)
 {
-    a.print(); fputs(" + ", stdout); b.print(); fputs(" = ", stdout);
-    (a + b).println();
-    a.print(); fputs(" - ", stdout); b.print(); fputs(" = ", stdout);
-    (a - b).println();
+    a.print(""," + "); b.print(""," = "); (a + b).println();
+    a.print("", " - "); b.print("", " = "); (a - b).println();
 
-    a.print(); fputs(" * 3                              = ", stdout);
-    (a * 3.0f).println();
-    b.print(); fputs(" / 2.5                            = ", stdout);
-    (b / 2.5f).println();
+    a.print("", " * 3                             = "); (a * 3.0f).println();
+    b.print("", " / 2.5                           = "); (b / 2.5f).println();
     return true;
 }

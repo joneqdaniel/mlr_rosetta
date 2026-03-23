@@ -12,6 +12,21 @@
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wgnu-alignof-expression"
 #endif
+#ifdef _MSC_VER
+#define FORCE_INLINE __force_inline
+#define FLATTEN __flatten
+#else
+#define FORCE_INLINE __attribute__((force_inline))
+#define FLATTEN __attribute__((flatten))
+#endif
+
+#ifdef __x86_64__
+#define REGPARM __attribute__((sseregparm))
+#elif defined(__i386__)
+#define REGPARM __attribute__((regparm(8)))
+#else
+#define REGPARM
+#endif
 
 /* default floating point type */
 using flt = double;
@@ -37,11 +52,11 @@ struct alignas(((N == N_POW2 && A != alg::num && A != alg::vec) || ((A == alg::v
 {
 	/* cast to different alignment modes */
 	template<enum alg A_DST = alg::std>
-	operator buf<T,N,A_DST>() { return *reinterpret_cast<buf<T,N,A_DST>*>(this); }
+	inline constexpr FLATTEN operator buf<T,N,A_DST>() { return *reinterpret_cast<buf<T,N,A_DST>*>(this); }
 
 	/* copy assign from another vector */
 	template<typename T_O, size_t N_O, enum alg A_O = alg::std>
-	buf<T,N,A>& operator=(const buf<T_O,N_O,A_O>& other)
+	inline constexpr FLATTEN buf<T,N,A>& operator=(const buf<T_O,N_O,A_O>& other)
 	{
 		std::copy(other.cbegin(), other.cend(), this->begin());
 		return (*this);
@@ -49,7 +64,7 @@ struct alignas(((N == N_POW2 && A != alg::num && A != alg::vec) || ((A == alg::v
 
 	/* permute vector according to input indices */
 	template<typename... I>
-	inline constexpr buf<T, sizeof...(I),A> permute(const I... args) const { return buf<T,sizeof...(I),A>{ (*this)[args % N]... }; }
+	inline constexpr FLATTEN buf<T, sizeof...(I),A> permute(const I... args) const { return buf<T,sizeof...(I),A>{ (*this)[args % N]... }; }
 };
 #pragma pack(pop)
 

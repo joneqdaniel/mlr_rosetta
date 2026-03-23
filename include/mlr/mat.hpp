@@ -41,7 +41,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 	void print(FILE* stream = stdout)
 	{
 		for(size_t i = 0; i < M; i++)
-			(*this)[i].println(stream);
+			(*this)[i].println("","",N,stream);
 	}
 	void println(FILE* stream = stdout)
 	{

@@ -133,7 +133,7 @@ struct ari
         T& operator+=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
-                std::array<T_O, ((const T*)this).size()> src;
+                std::array<T_O, ((const T*)this)->size()> src;
                 src.fill(other);
                 std::transform(dst.cbegin(), dst.cend(), src.cbegin(), dst.begin(), std::plus<>{});
                 return dst;
@@ -142,7 +142,7 @@ struct ari
         T& operator-=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
-                std::array<T_O, ((const T*)this).size()> src;
+                std::array<T_O, ((const T*)this)->size()> src;
                 src.fill(other);
                 std::transform(dst.cbegin(), dst.cend(), src.cbegin(), dst.begin(), std::minus<>{});
                 return dst;
