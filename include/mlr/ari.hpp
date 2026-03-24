@@ -5,7 +5,7 @@ template<typename T>
 struct ari
 {
         template<typename T_O>
-        friend T operator+(const T& lhs, const T_O& other) requires(!sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator+(const T& lhs, const T_O& other) requires(!sca<T_O>)
         {
                 T dst;
                 std::transform(lhs.cbegin(),lhs.cend(),other.cbegin(),dst.begin(), std::plus<>{});
@@ -13,7 +13,7 @@ struct ari
         }
 
         template<typename T_O>
-        friend T operator+(const T& lhs, const T_O& other) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator+(const T& lhs, const T_O& other) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -21,7 +21,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator+(const T_O& other, const T& rhs) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator+(const T_O& other, const T& rhs) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -29,7 +29,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator-(const T& lhs, const T_O& other) requires(!sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator-(const T& lhs, const T_O& other) requires(!sca<T_O>)
         {
                 T dst;
                 std::transform(lhs.cbegin(),lhs.cend(),other.cbegin(),dst.begin(), std::minus<>{});
@@ -37,7 +37,7 @@ struct ari
         }
 
         template<typename T_O>
-        friend T operator-(const T& lhs, const T_O& other) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator-(const T& lhs, const T_O& other) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -45,7 +45,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator-(const T_O& other, const T& rhs) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator-(const T_O& other, const T& rhs) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -53,7 +53,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator*(const T& lhs, const T_O& other) requires(!sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator*(const T& lhs, const T_O& other) requires(!sca<T_O>)
         {
                 T dst;
                 std::transform(lhs.cbegin(),lhs.cend(),other.cbegin(),dst.begin(), std::multiplies<>{});
@@ -61,7 +61,7 @@ struct ari
         }
 
         template<typename T_O>
-        friend T operator*(const T& lhs, const T_O& other) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator*(const T& lhs, const T_O& other) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -69,7 +69,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator*(const T_O& other, const T& rhs) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator*(const T_O& other, const T& rhs) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -78,7 +78,7 @@ struct ari
         }
 
         template<typename T_O>
-        friend T operator/(const T& lhs, const T_O& other) requires(!sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator/(const T& lhs, const T_O& other) requires(!sca<T_O>)
         {
                 T dst;
                 std::transform(lhs.cbegin(),lhs.cend(),other.cbegin(),dst.begin(), std::divides<>{});
@@ -86,7 +86,7 @@ struct ari
         }
 
         template<typename T_O>
-        friend T operator/(const T& lhs, const T_O& other) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator/(const T& lhs, const T_O& other) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -94,7 +94,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        friend T operator/(const T_O& other, const T& rhs) requires(sca<T_O>)
+        friend inline constexpr FORCE_INLINE FLATTEN T operator/(const T_O& other, const T& rhs) requires(sca<T_O>)
         {
                 T dst;
                 dst.fill(other);
@@ -102,35 +102,35 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        T& operator+=(const T_O& other) requires(!sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator+=(const T_O& other) requires(!sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::transform(dst.cbegin(), dst.cend(), other.cbegin(), dst.begin(), std::plus<>{});
                 return dst;
         }
         template<typename T_O>
-        T& operator-=(const T_O& other) requires(!sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator-=(const T_O& other) requires(!sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::transform(dst.cbegin(), dst.cend(), other.cbegin(), dst.begin(), std::minus<>{});
                 return dst;
         }
         template<typename T_O>
-        T& operator*=(const T_O& other) requires(!sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator*=(const T_O& other) requires(!sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::transform(dst.cbegin(), dst.cend(), other.cbegin(), dst.begin(), std::multiplies<>{});
                 return dst;
         }
         template<typename T_O>
-        T& operator/=(const T_O& other) requires(!sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator/=(const T_O& other) requires(!sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::transform(dst.cbegin(), dst.cend(), other.cbegin(), dst.begin(), std::divides<>{});
                 return dst;
         }
         template<typename T_O>
-        T& operator+=(const T_O& other) requires(sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator+=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::array<T_O, ((const T*)this)->size()> src;
@@ -139,7 +139,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        T& operator-=(const T_O& other) requires(sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator-=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::array<T_O, ((const T*)this)->size()> src;
@@ -148,7 +148,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        T& operator*=(const T_O& other) requires(sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator*=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::array<T_O, ((const T*)this)->size()> src;
@@ -157,7 +157,7 @@ struct ari
                 return dst;
         }
         template<typename T_O>
-        T& operator/=(const T_O& other) requires(sca<T_O>)
+        inline constexpr FORCE_INLINE FLATTEN T& operator/=(const T_O& other) requires(sca<T_O>)
         {
                 T& dst = (*(T*)this);
                 std::array<T_O, ((const T*)this)->size()> src;

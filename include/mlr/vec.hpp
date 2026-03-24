@@ -7,6 +7,8 @@
 #include "buf.hpp"
 #include "ari.hpp"
 
+inline constexpr FORCE_INLINE FLATTEN void eol(FILE* stream = stdout) { fputs("\n", stream); }
+
 template<typename T, size_t N, enum alg A = alg::std, size_t N_POW2 = std::bit_ceil<size_t>(N)>
 struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 {
@@ -67,7 +69,7 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 	}
 
 	/* print vector to stdio C stream */
-	void print(const char* prefix = "", const char* suffix = "", size_t len = N, FILE* stream = stdout)
+	inline constexpr FORCE_INLINE FLATTEN void print(const char* prefix = "", const char* suffix = "", size_t len = N, FILE* stream = stdout)
 	{
 		len = std::min(len, N);
 		fputs(prefix, stream);
@@ -77,7 +79,7 @@ struct vec : buf<T,N,A>, ari<vec<T,N,A>>
 		fputs(suffix, stream);
 	}
 	/* print vector to stdio C stream terminating with new line */
-		void println(const char* prefix = "", const char* suffix = "", size_t len = N, FILE* stream = stdout)
+	inline constexpr FORCE_INLINE FLATTEN void println(const char* prefix = "", const char* suffix = "", size_t len = N, FILE* stream = stdout)
 	{
 		print(prefix,suffix,len,stream);
 		fputs("\n", stream);

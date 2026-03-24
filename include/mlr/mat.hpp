@@ -22,7 +22,7 @@ struct mat : buf<vec<T,N,A>,M,A>
         }
         /* calculate determinant using laplace expansion */
         template<bool SIGN = true>
-        constexpr flt det() const requires(N > 1)
+        inline constexpr FORCE_INLINE FLATTEN flt det() const requires(N > 1)
         {
                 flt sum = 0;
                 bool sign = true;
@@ -35,24 +35,24 @@ struct mat : buf<vec<T,N,A>,M,A>
         }
         /* leaf node of det */
         template<bool SIGN = true>
-        inline constexpr flt det () const requires(N == 1) { return flt((*this)[0][0]); }
+        inline constexpr FORCE_INLINE FLATTEN flt det () const requires(N == 1) { return flt((*this)[0][0]); }
         /* calculate permanent using det without sign */
-        inline constexpr flt perm() const requires(N  > 0) { return this->det<false>(); }
-	void print(FILE* stream = stdout)
+        inline constexpr FORCE_INLINE FLATTEN flt perm() const requires(N  > 0) { return this->det<false>(); }
+	inline constexpr FORCE_INLINE FLATTEN void print(FILE* stream = stdout)
 	{
 		for(size_t i = 0; i < M; i++)
 			(*this)[i].println("","",N,stream);
 	}
-	void println(FILE* stream = stdout)
+	inline constexpr FORCE_INLINE FLATTEN void println(FILE* stream = stdout)
 	{
 		print(stream);
 		fputs("", stream);
 	}
-	static constexpr mat<T,M,M> ne()
+	static inline constexpr FORCE_INLINE FLATTEN mat<T,M,M> ne()
 	{
 		return {};
 	}
-	static constexpr mat<T,M,M,A> id(ssize_t n = M)
+	static inline constexpr FORCE_INLINE FLATTEN mat<T,M,M,A> id(ssize_t n = M)
 	{
 		mat<T,M,M,A> dst;
 		if(n < 0) dst.fill(vec<T,M,A>::id());
@@ -60,7 +60,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 		return dst;
 	}
 	template<size_t N_I>
-	mat<T,M,N,A> transposed() const
+	inline constexpr FORCE_INLINE FLATTEN mat<T,M,N,A> transposed() const
 	{
 		mat<T,M,N,A> dst;
 		for(size_t i = 0; i < M; i++)
@@ -69,7 +69,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 		return dst;
 	}
 	template<typename T_O>
-	vec<T,M,A> operator*(const vec<T_O,N,A>& rhs)
+	inline constexpr FORCE_INLINE FLATTEN vec<T,M,A> operator*(const vec<T_O,N,A>& rhs)
 	{
 		vec<T,M,A> dst;
 		for(size_t i = 0; i < M; i++)
@@ -77,7 +77,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 		return dst;
 	}
 	template<typename T_O>
-	mat<T,N,M,A>& operator*=(const mat<T_O,N,M,A>& rhs)
+	inline constexpr FORCE_INLINE FLATTEN mat<T,N,M,A>& operator*=(const mat<T_O,N,M,A>& rhs)
 	{
 		mat<T_O,M,N,A> tp = rhs.transposed();
 		for(size_t i = 0; i < M; i++)
@@ -89,7 +89,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 		return (*this);
 	}
 	template<typename T_O>
-	mat<T,N,M,A> operator*(const mat<T_O,N,M,A>& rhs) const
+	inline constexpr FORCE_INLINE FLATTEN mat<T,N,M,A> operator*(const mat<T_O,N,M,A>& rhs) const
 	{
 		mat<T,N,M,A> dst = (*this);
 		return (dst *= rhs);
@@ -98,7 +98,7 @@ struct mat : buf<vec<T,N,A>,M,A>
 
 /* 4-dimensional cross/vector product using laplacian expansion (specialization of n-dimensional hodge dual/star operator) */
 template<typename T_A, size_t N_A, typename T_B, size_t N_B, typename T_C, size_t N_C, enum alg A_A = alg::std, enum alg A_B = alg::std, enum alg A_C = alg::std, typename T_DST = decltype((T_A)1 * (T_B)1 * (T_C)1 - (T_A)1 * (T_B)1 * (T_C)1)>
-inline constexpr vec<T_DST,4> cross4(const vec<T_A,N_A,A_A>& a, const vec<T_B,N_B,A_B>& b, const vec<T_C,N_C,A_C>& c)
+inline constexpr FORCE_INLINE FLATTEN vec<T_DST,4> cross4(const vec<T_A,N_A,A_A>& a, const vec<T_B,N_B,A_B>& b, const vec<T_C,N_C,A_C>& c)
 {
 	return vec<T_DST,4>{ -mat<T_DST,3,3>{ a.permute(1,2,3), b.permute(1,2,3), c.permute(1,2,3) }.det(),
 	                     +mat<T_DST,3,3>{ a.permute(0,2,3), b.permute(0,2,3), c.permute(0,2,3) }.det(),

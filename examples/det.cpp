@@ -36,7 +36,7 @@ int main()
 }
 
 template<typename T, size_t N, size_t M, enum alg A>
-constexpr inline bool test(mat<T,N,M,A>& src)
+constexpr inline FORCE_INLINE FLATTEN bool test(mat<T,N,M,A>& src)
 {
 	src.println();
 	printf("  permanent: %+e\n",               (flt)src.perm());
